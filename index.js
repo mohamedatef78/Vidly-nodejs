@@ -1,4 +1,4 @@
-const Joi = require('joi');
+ const Joi = require('joi');
 const genres = require('./routes/genres');
 const express = require('express');
 const app = express();

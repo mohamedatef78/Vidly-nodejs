@@ -1,7 +1,6 @@
 {
   "name": "vidly",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +11,14 @@
   "dependencies": {
     "express": "^4.16.2",
     "joi": "^13.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamedatef78/Vidly-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohamedatef78/Vidly-nodejs/issues"
+  },
+  "homepage": "https://github.com/mohamedatef78/Vidly-nodejs#readme",
+  "description": ""
 }
