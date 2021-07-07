@@ -1,4 +1,6 @@
 const User = require('../Models/User');
+const   catchAsync = require('../Middleware/catchAsync');
+const AppError = require('../utils/Error');
 const _ = require('lodash');
 const jwt  = require('jsonwebtoken');
 
@@ -32,8 +34,8 @@ const createToken = (user,statusCode,req,res)=>{
 }
 
 
-exports.signup = async(req ,res) =>{
-    try{
+exports.signup =catchAsync( async(req ,res) =>{
+    
         let user = await User.findOne({email:req.body.email});
         if(user) return res.status(400).send('user already registered');
 
@@ -47,20 +49,18 @@ exports.signup = async(req ,res) =>{
 
         // });
         // res.send(newuser);
-    }catch(ex){
-        
-        res.status(400).send(ex);
-
-    }
-}
+    
+});
 
 
-exports.login = async(req,res)=>{
-    if(!_.pick(req.body,['email','password'])) return res.status(400).send('Please provide email and password!') ;
+exports.login = catchAsync(async(req,res , next)=>{
+    // 1) Check if email and password exist
+    if(!_.pick(req.body,['email','password']))  return next(new AppError('Please provide email and password!', 400)) ;
+    // 2) Check if user exists && password is correct
     const user = await User.findOne({email : req.body.email}).select('+password');
     if(!user || !(await user.comparepassword(req.body.password , user.password))) {
-        return res.status(400).send('Incorrect email or password') ;
+        return next(new AppError('Incorrect email or password', 401)); 
     }
-    
+    // 3) If everything ok, send token to client
     createToken(user , 200 ,req ,res);
-}
+});
