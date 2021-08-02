@@ -60,7 +60,7 @@ exports.login = catchAsync(async(req,res , next)=>{
     const user = await User.findOne({email : req.body.email}).select('+password');
     if(!user || !(await user.comparepassword(req.body.password , user.password))) {
         return next(new AppError('Incorrect email or password', 401)); 
-    }
+    } 
     // 3) If everything ok, send token to client
     createToken(user , 200 ,req ,res);
 });
